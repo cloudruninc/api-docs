@@ -3,9 +3,7 @@ title: API Reference
 
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
-  - ruby
   - python
-  - javascript
 
 toc_footers:
   - <a href='#'>Sign Up for a Developer Key</a>
@@ -19,80 +17,54 @@ search: true
 
 # Introduction
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+Welcome to the Cloudrun API!
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
-
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+We have language bindings in for shell (using curl) and Python! 
+You can view code examples in the dark area to the right, 
+and you can switch the programming language of the examples with the tabs in the top right.
 
 # Authentication
 
 > To authorize, use this code:
 
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-```
-
 ```python
-import kittn
+import cloudrun
 
-api = kittn.authorize('meowmeowmeow')
+api = cloudrun.authorize('cloudrun_token')
 ```
 
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
+  -H "Authorization: cloudrun_token"
 ```
 
-```javascript
-const kittn = require('kittn');
+> Make sure to replace `cloudrun_token` with your API key.
 
-let api = kittn.authorize('meowmeowmeow');
-```
+Cloudrun uses API keys to allow access to the API. You can register a new Cloudrun API key at our [developer portal](http://cloudrun.co/v1/developers).
 
-> Make sure to replace `meowmeowmeow` with your API key.
+Cloudrun expects for the API key to be included in all API requests to the server in a header that looks like the following:
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
-
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
-
-`Authorization: meowmeowmeow`
+`Authorization: cloudrun_token`
 
 <aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
+You must replace <code>cloudrun_token</code> with your personal API key.
 </aside>
 
-# Kittens
+# WRF
 
-## Get All Kittens
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+## Get All WRF runs
 
 ```python
-import kittn
+import cloudrun
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
+api = cloudrun.authorize('cloudrun_token')
+api.wrf.get()
 ```
 
 ```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
+curl "http://cloudrun.co/v1/api/wrf"
+  -H "Authorization: cloudrun_token"
 ```
 
 > The above command returns JSON structured like this:
@@ -116,49 +88,35 @@ let kittens = api.kittens.get();
 ]
 ```
 
-This endpoint retrieves all kittens.
+This endpoint retrieves all wrf.
 
 ### HTTP Request
 
-`GET http://example.com/api/kittens`
+`GET http://cloudrun.co/v1/api/wrf`
 
 ### Query Parameters
 
 Parameter | Default | Description
 --------- | ------- | -----------
 include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
+available | true | If set to false, the result will include wrf that have already been adopted.
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Remember — a happy WRF run is an authenticated WRF run!
 </aside>
 
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
+## Get a Specific WRF run
 
 ```python
-import kittn
+import cloudrun
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
+api = cloudrun.authorize('cloudrun_token')
+api.wrf.get(2)
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
+curl "http://cloudrun.co/v1/api/wrf/2"
+  -H "Authorization: cloudrun_token"
 ```
 
 > The above command returns JSON structured like this:
@@ -173,47 +131,33 @@ let max = api.kittens.get(2);
 }
 ```
 
-This endpoint retrieves a specific kitten.
+This endpoint retrieves a specific WRF run.
 
 <aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
 
 ### HTTP Request
 
-`GET http://example.com/kittens/<ID>`
+`GET http://cloudrun.co/v1/wrf/<ID>`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to retrieve
+ID | The ID of the WRF run to retrieve
 
-## Delete a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.delete(2)
-```
+## Delete a Specific WRF run
 
 ```python
-import kittn
+import cloudrun
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.delete(2)
+api = cloudrun.authorize('cloudrun_token')
+api.wrf.delete(2)
 ```
 
 ```shell
-curl "http://example.com/api/kittens/2"
+curl "http://cloudrun.co/v1/api/wrf/2"
   -X DELETE
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.delete(2);
+  -H "Authorization: cloudrun_token"
 ```
 
 > The above command returns JSON structured like this:
@@ -225,15 +169,15 @@ let max = api.kittens.delete(2);
 }
 ```
 
-This endpoint retrieves a specific kitten.
+This endpoint retrieves a specific WRF run.
 
 ### HTTP Request
 
-`DELETE http://example.com/kittens/<ID>`
+`DELETE http://cloudrun.co/v1/wrf/<ID>`
 
 ### URL Parameters
 
 Parameter | Description
 --------- | -----------
-ID | The ID of the kitten to delete
+ID | The ID of the WRF run to delete
 
