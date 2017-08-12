@@ -6,8 +6,7 @@ language_tabs: # must be one of https://git.io/vQNgJ
   - python
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
-  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
+  - <a href='mailto:accounts@cloudrun.co'>Sign Up for a Developer Key</a>
 
 includes:
   - errors
@@ -25,159 +24,138 @@ and you can switch the programming language of the examples with the tabs in the
 
 # Authentication
 
-> To authorize, use this code:
+> To authenticate, use this code:
 
 ```python
-import cloudrun
+from cloudrun import Cloudrun
 
-api = cloudrun.authorize('cloudrun_token')
+api = Cloudrun(token = os.environ['CLOUDRUN_TOKEN'])
 ```
 
 ```shell
 # With shell, you can just pass the correct header with each request
 curl "api_endpoint_here"
-  -H "Authorization: cloudrun_token"
+  -H "Authorization: Bearer $CLOUDRUN_TOKEN"
 ```
 
-> Make sure to replace `cloudrun_token` with your API key.
+> Make sure to set `CLOUDRUN_TOKEN` environment variable with your API key.
 
-Cloudrun uses API keys to allow access to the API. You can register a new Cloudrun API key at our [developer portal](http://cloudrun.co/v1/developers).
+Cloudrun uses API tokens to allow access to the API. 
+You can reqest a new Cloudrun API token via e-mail at 
+[accounts@cloudrun.co](mailto:accounts@cloudrun.co).
 
-Cloudrun expects for the API key to be included in all API requests to the server in a header that looks like the following:
+Cloudrun expects for the API token to be included in all API requests to the server 
+in a header that looks like the following:
 
-`Authorization: cloudrun_token`
+`Authorization: Bearer $CLOUDRUN_API_TOKEN`
 
 <aside class="notice">
-You must replace <code>cloudrun_token</code> with your personal API key.
+<code>cloudrun_api_token</code> environement variable must be set to your personal API token.
 </aside>
 
 # WRF
 
-## Get All WRF runs
+## Get all WRF runs
 
 ```python
-import cloudrun
+from cloudrun import Cloudrun
 
-api = cloudrun.authorize('cloudrun_token')
-api.wrf.get()
+api = Cloudrun(token)
+runs = api.get_all_runs()
 ```
 
 ```shell
-curl "http://cloudrun.co/v1/api/wrf"
-  -H "Authorization: cloudrun_token"
+curl https://api.cloudrun.co/v1/wrf
+    -H "Authorization: Bearer $token"
 ```
 
-> The above command returns JSON structured like this:
+> `token` parameter must be set to your personal API token. 
 
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all wrf.
+This endpoint retrieves all WRF runs that you own or have access to.
 
 ### HTTP Request
 
-`GET http://cloudrun.co/v1/api/wrf`
+`GET https://api.cloudrun.co/v1/wrf`
 
-### Query Parameters
+## Get a specific WRF run
 
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include wrf that have already been adopted.
+```python
+from cloudrun import Cloudrun
 
-<aside class="success">
-Remember — a happy WRF run is an authenticated WRF run!
+api = Cloudrun(token)
+run = api.get_run(id)
+```
+
+```shell
+curl "https://api.cloudrun.co/v1/wrf/$id"
+  -H "Authorization: Bearer $token"
+```
+
+This endpoint retrieves a specific WRF run that you own or have access to.
+
+### URL parameters
+
+Parameter | Description
+--------- | -----------
+id        | The id of the WRF run to retrieve
+
+## Create a new run
+
+```python
+from cloudrun import Cloudrun
+
+api = Cloudrun(token)
+run = api.create_run(model = 'wrf', version = '3.9')
+```
+
+```shell
+curl -X POST https://api.cloudrun.co/v1/wrf \
+     -H "Authorization: Bearer $token" \
+     -F "version=3.9"
+```
+
+This endpoint creates a new WRF run.
+
+### HTTP Request
+
+`POST https://api.cloudrun.co/v1/wrf`
+
+### Form parameters
+
+Parameter | Description
+--------- | -----------
+version   | WRF version to use
+
+<aside class="notice">
+Only WRF versions 3.8.1 and 3.9 are currently supported.
 </aside>
 
-## Get a Specific WRF run
-
-```python
-import cloudrun
-
-api = cloudrun.authorize('cloudrun_token')
-api.wrf.get(2)
-```
-
-```shell
-curl "http://cloudrun.co/v1/api/wrf/2"
-  -H "Authorization: cloudrun_token"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific WRF run.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+## Upload input files
 
 ### HTTP Request
 
-`GET http://cloudrun.co/v1/wrf/<ID>`
+`POST https://api.cloudrun.co/v1/wrf/{id}/upload`
 
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the WRF run to retrieve
-
-## Delete a Specific WRF run
-
-```python
-import cloudrun
-
-api = cloudrun.authorize('cloudrun_token')
-api.wrf.delete(2)
-```
-
-```shell
-curl "http://cloudrun.co/v1/api/wrf/2"
-  -X DELETE
-  -H "Authorization: cloudrun_token"
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "deleted" : ":("
-}
-```
-
-This endpoint retrieves a specific WRF run.
+## Setup your WRF run
 
 ### HTTP Request
 
-`DELETE http://cloudrun.co/v1/wrf/<ID>`
+`POST https://api.cloudrun.co/v1/wrf/{id}/setup`
 
-### URL Parameters
+## Start your WRF run
 
-Parameter | Description
---------- | -----------
-ID | The ID of the WRF run to delete
+### HTTP Request
 
+`POST https://api.cloudrun.co/v1/wrf/{id}/start`
+
+## Stop your WRF run
+
+### HTTP Request
+
+`POST https://api.cloudrun.co/v1/wrf/{id}/stop`
+
+## Delete your WRF run
+
+### HTTP Request
+
+`DELETE https://api.cloudrun.co/v1/wrf/{id}
