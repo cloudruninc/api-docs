@@ -229,13 +229,31 @@
             <a href="#wrf" class="toc-h1 toc-link" data-title="WRF">WRF</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-wrf-runs" class="toc-h2 toc-link" data-title="WRF">Get All WRF runs</a>
+                    <a href="#get-all-wrf-runs" class="toc-h2 toc-link" data-title="WRF">Get all WRF runs</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-wrf-run" class="toc-h2 toc-link" data-title="WRF">Get a Specific WRF run</a>
+                    <a href="#get-a-specific-wrf-run" class="toc-h2 toc-link" data-title="WRF">Get a specific WRF run</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-wrf-run" class="toc-h2 toc-link" data-title="WRF">Delete a Specific WRF run</a>
+                    <a href="#create-a-new-run" class="toc-h2 toc-link" data-title="WRF">Create a new run</a>
+                  </li>
+                  <li>
+                    <a href="#upload-input-file" class="toc-h2 toc-link" data-title="WRF">Upload input file</a>
+                  </li>
+                  <li>
+                    <a href="#upload-input-file-by-url" class="toc-h2 toc-link" data-title="WRF">Upload input file by URL</a>
+                  </li>
+                  <li>
+                    <a href="#setup-your-wrf-run" class="toc-h2 toc-link" data-title="WRF">Setup your WRF run</a>
+                  </li>
+                  <li>
+                    <a href="#start-your-wrf-run" class="toc-h2 toc-link" data-title="WRF">Start your WRF run</a>
+                  </li>
+                  <li>
+                    <a href="#stop-your-wrf-run" class="toc-h2 toc-link" data-title="WRF">Stop your WRF run</a>
+                  </li>
+                  <li>
+                    <a href="#delete-your-wrf-run" class="toc-h2 toc-link" data-title="WRF">Delete your WRF run</a>
                   </li>
               </ul>
           </li>
@@ -244,8 +262,7 @@
           </li>
       </div>
         <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a></li>
+            <li><a href='mailto:accounts@cloudrun.co'>Sign Up for a Developer Key</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -259,105 +276,77 @@ You can view code examples in the dark area to the right,
 and you can switch the programming language of the examples with the tabs in the top right.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
-<p>To authorize, use this code:</p>
+<p>To authenticate, use this code:</p>
 </blockquote>
-<pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">cloudrun</span>
+<pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">cloudrun</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'cloudrun_token'</span><span class="p">)</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">'CLOUDRUN_TOKEN'</span><span class="p">])</span>
 </code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
 curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: cloudrun_token"</span>
+  -H <span class="s2">"Authorization: Bearer </span><span class="nv">$CLOUDRUN_TOKEN</span><span class="s2">"</span>
 </code></pre>
 <blockquote>
-<p>Make sure to replace <code>cloudrun_token</code> with your API key.</p>
+<p>Make sure to set <code>CLOUDRUN_TOKEN</code> environment variable with your API key.</p>
 </blockquote>
 
-<p>Cloudrun uses API keys to allow access to the API. You can register a new Cloudrun API key at our <a href="http://cloudrun.co/v1/developers">developer portal</a>.</p>
+<p>Cloudrun uses API tokens to allow access to the API. 
+You can reqest a new Cloudrun API token via e-mail at 
+<a href="mailto:accounts@cloudrun.co">accounts@cloudrun.co</a>.</p>
 
-<p>Cloudrun expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
+<p>Cloudrun expects for the API token to be included in all API requests to the server 
+in a header that looks like the following:</p>
 
-<p><code>Authorization: cloudrun_token</code></p>
+<p><code>Authorization: Bearer $CLOUDRUN_API_TOKEN</code></p>
 
 <aside class="notice">
-You must replace <code>cloudrun_token</code> with your personal API key.
+<code>cloudrun_api_token</code> environement variable must be set to your personal API token.
 </aside>
-<h1 id='wrf'>WRF</h1><h2 id='get-all-wrf-runs'>Get All WRF runs</h2><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">cloudrun</span>
+<h1 id='wrf'>WRF</h1><h2 id='get-all-wrf-runs'>Get all WRF runs</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">cloudrun</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'cloudrun_token'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">wrf</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://cloudrun.co/v1/api/wrf"</span>
-  -H <span class="s2">"Authorization: cloudrun_token"</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+<span class="n">runs</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_all_runs</span><span class="p">()</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl https://api.cloudrun.co/v1/wrf
+    -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span>
 </code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p><code>token</code> parameter must be set to your personal API token. </p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves all wrf.</p>
+
+<p>This endpoint retrieves all WRF runs that you own or have access to.</p>
 <h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://cloudrun.co/v1/api/wrf</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
+<p><code>GET https://api.cloudrun.co/v1/wrf</code></p>
+<h2 id='get-a-specific-wrf-run'>Get a specific WRF run</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_run</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.cloudrun.co/v1/wrf/</span><span class="nv">$id</span><span class="s2">"</span>
+  -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span>
+</code></pre>
+<p>This endpoint retrieves a specific WRF run that you own or have access to.</p>
+<h3 id='url-parameters'>URL parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
-<th>Default</th>
 <th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
-</tr>
-<tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include wrf that have already been adopted.</td>
+<td>id</td>
+<td>The id of the WRF run to retrieve</td>
 </tr>
 </tbody></table>
+<h2 id='create-a-new-run'>Create a new run</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
-<aside class="success">
-Remember — a happy WRF run is an authenticated WRF run!
-</aside>
-<h2 id='get-a-specific-wrf-run'>Get a Specific WRF run</h2><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">cloudrun</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">cloudrun</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'cloudrun_token'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">wrf</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://cloudrun.co/v1/api/wrf/2"</span>
-  -H <span class="s2">"Authorization: cloudrun_token"</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">create_run</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s">'wrf'</span><span class="p">,</span><span class="n">version</span><span class="o">=</span><span class="s">'3.9'</span><span class="p">)</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl -X POST https://api.cloudrun.co/v1/wrf <span class="se">\</span>
+     -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     -F <span class="s2">"version=3.9"</span>
 </code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves a specific WRF run.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
+<p>This endpoint creates a new WRF run.</p>
 <h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://cloudrun.co/v1/wrf/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
+<p><code>POST https://api.cloudrun.co/v1/wrf</code></p>
+<h3 id='form-parameters'>Form parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -365,30 +354,31 @@ Remember — a happy WRF run is an authenticated WRF run!
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the WRF run to retrieve</td>
+<td>version</td>
+<td>WRF version to use</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-specific-wrf-run'>Delete a Specific WRF run</h2><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">cloudrun</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">cloudrun</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'cloudrun_token'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">wrf</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://cloudrun.co/v1/api/wrf/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: cloudrun_token"</span>
+<aside class="notice">
+Only WRF versions 3.8.1 and 3.9 are currently supported.
+</aside>
+<h2 id='upload-input-file'>Upload input file</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">create_run</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s">'wrf'</span><span class="p">,</span><span class="n">version</span><span class="o">=</span><span class="s">'3.9'</span><span class="p">)</span>
+<span class="n">run</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="nb">file</span><span class="o">=</span><span class="n">path_to_file</span><span class="p">)</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl -X POST https://api.cloudrun.co/v1/wrf/<span class="k">${</span><span class="nv">id</span><span class="k">}</span>/upload <span class="se">\</span>
+     -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     -F <span class="s2">"file=@</span><span class="nv">$path_to_file</span><span class="s2">"</span>
 </code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p><code>path_to_file</code> parameter must point to a valid input file, e.g. <code>wrfinput_d01</code>.</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>This endpoint retrieves a specific WRF run.</p>
+
+<p>This endpoint lets you upload an input file to your run.</p>
 <h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://cloudrun.co/v1/wrf/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<p><code>POST https://api.cloudrun.co/v1/wrf/{id}/upload</code></p>
+<h3 id='form-parameters-2'>Form parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -396,10 +386,48 @@ Remember — a happy WRF run is an authenticated WRF run!
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the WRF run to delete</td>
+<td>file</td>
+<td>Path to a valid input file</td>
 </tr>
 </tbody></table>
+<h2 id='upload-input-file-by-url'>Upload input file by URL</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
+
+<span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+<span class="n">run</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">create_run</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s">'wrf'</span><span class="p">,</span><span class="n">version</span><span class="o">=</span><span class="s">'3.9'</span><span class="p">)</span>
+<span class="n">run</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">url</span><span class="o">=</span><span class="n">url_to_file</span><span class="p">)</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl -X POST https://api.cloudrun.co/v1/wrf/<span class="k">${</span><span class="nv">id</span><span class="k">}</span>/upload_url <span class="se">\</span>
+     -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
+     -F <span class="s2">"url=</span><span class="nv">$url_to_file</span><span class="s2">"</span>
+</code></pre>
+<blockquote>
+<p><code>url_to_file</code> parameter must point to a valid input file
+on the web, e.g. <code>wrfinput_d01</code>. This could be a file
+hosted from an http or ftp server, or an Amazon S3 bucket.</p>
+</blockquote>
+
+<p>This endpoint lets you upload an input file from a remote URL to your run.</p>
+<h3 id='http-request-4'>HTTP Request</h3>
+<p><code>POST https://api.cloudrun.co/v1/wrf/{id}/upload_url</code></p>
+<h3 id='form-parameters-3'>Form parameters</h3>
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>url</td>
+<td>URL to a remote input file</td>
+</tr>
+</tbody></table>
+<h2 id='setup-your-wrf-run'>Setup your WRF run</h2><h3 id='http-request-5'>HTTP Request</h3>
+<p><code>POST https://api.cloudrun.co/v1/wrf/{id}/setup</code></p>
+<h2 id='start-your-wrf-run'>Start your WRF run</h2><h3 id='http-request-6'>HTTP Request</h3>
+<p><code>POST https://api.cloudrun.co/v1/wrf/{id}/start</code></p>
+<h2 id='stop-your-wrf-run'>Stop your WRF run</h2><h3 id='http-request-7'>HTTP Request</h3>
+<p><code>POST https://api.cloudrun.co/v1/wrf/{id}/stop</code></p>
+<h2 id='delete-your-wrf-run'>Delete your WRF run</h2><h3 id='http-request-8'>HTTP Request</h3>
+<p><code>DELETE https://api.cloudrun.co/v1/wrf/{id}</code></p>
 <h1 id='errors'>Errors</h1>
 <aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files...just save them to the `includes` folder and add them to the top of your `index.md`'s frontmatter. Files are included in the order listed.</aside>
 
