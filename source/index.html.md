@@ -105,7 +105,7 @@ id        | The id of the WRF run to retrieve
 from cloudrun import Cloudrun
 
 api = Cloudrun(token)
-run = api.create_run(model = 'wrf', version = '3.9')
+run = api.create_run(model='wrf',version='3.9')
 ```
 
 ```shell
@@ -130,11 +130,67 @@ version   | WRF version to use
 Only WRF versions 3.8.1 and 3.9 are currently supported.
 </aside>
 
-## Upload input files
+## Upload input file
+
+```python
+from cloudrun import Cloudrun
+
+api = Cloudrun(token)
+run = api.create_run(model='wrf',version='3.9')
+run.upload(file=path_to_file)
+```
+
+```shell
+curl -X POST https://api.cloudrun.co/v1/wrf/${id}/upload \
+     -H "Authorization: Bearer $token" \
+     -F "file=@$path_to_file"
+```
+
+> `path_to_file` parameter must point to a valid input file, e.g. `wrfinput_d01`.
+
+This endpoint lets you upload an input file to your run.
 
 ### HTTP Request
 
 `POST https://api.cloudrun.co/v1/wrf/{id}/upload`
+
+### Form parameters
+
+Parameter | Description
+--------- | -----------
+file      | Path to a valid input file
+
+## Upload input file by URL
+
+```python
+from cloudrun import Cloudrun
+
+api = Cloudrun(token)
+run = api.create_run(model='wrf',version='3.9')
+run.upload(url=url_to_file)
+```
+
+```shell
+curl -X POST https://api.cloudrun.co/v1/wrf/${id}/upload_url \
+     -H "Authorization: Bearer $token" \
+     -F "url=$url_to_file"
+```
+
+> `url_to_file` parameter must point to a valid input file
+on the web, e.g. `wrfinput_d01`. This could be a file
+hosted from an http or ftp server, or an Amazon S3 bucket.
+
+This endpoint lets you upload an input file from a remote URL to your run.
+
+### HTTP Request
+
+`POST https://api.cloudrun.co/v1/wrf/{id}/upload_url`
+
+### Form parameters
+
+Parameter | Description
+--------- | -----------
+url       | URL to a remote input file
 
 ## Setup your WRF run
 
@@ -158,4 +214,4 @@ Only WRF versions 3.8.1 and 3.9 are currently supported.
 
 ### HTTP Request
 
-`DELETE https://api.cloudrun.co/v1/wrf/{id}
+`DELETE https://api.cloudrun.co/v1/wrf/{id}`
