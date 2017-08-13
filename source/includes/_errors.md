@@ -1,14 +1,11 @@
 # Errors
 
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files...just save them to the `includes` folder and add them to the top of your `index.md`'s frontmatter. Files are included in the order listed.</aside>
-
 The Cloudrun API uses the following error codes:
-
 
 Error Code | Meaning
 ---------- | -------
 400 | Bad Request -- Your request is incorrect.
-401 | Unauthorized -- Your API key is wrong.
+401 | Unauthorized -- Your API token is wrong.
 403 | Forbidden -- The resource requested is hidden for administrators only.
 404 | Not Found -- The specified resource could not be found.
 429 | Too Many Requests -- Slow down!
