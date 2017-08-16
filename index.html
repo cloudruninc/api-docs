@@ -322,6 +322,76 @@ in a header that looks like the following:</p>
 </code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.cloudrun.co/v1/wrf/</span><span class="nv">$id</span><span class="s2">"</span>
   -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span>
 </code></pre>
+<blockquote>
+<p>The response body will look like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f946f8c0d52e45d88952d66d19f727d6"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"97755b5e102f4342992621cf949ab71c"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">4436</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3c80152b5e2d4ddf9b83a008ef736682"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfinput_d01"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9605792</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cf7a5c653de64449b8695439905e4759"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">31341856</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"model"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrf"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.9"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"output_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_00:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_01:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_02:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_03:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_04:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_05:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_06:00:00"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"output_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">225767800</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"percent_complete"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"required_input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"wrfinput_d01"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"done"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T17:17:01"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_started"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T17:19:48"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_stopped"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T17:23:58"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This endpoint retrieves a specific WRF run that you own or have access to.</p>
 <h3 id='url-parameters'>URL parameters</h3>
 <table><thead>
@@ -343,6 +413,26 @@ in a header that looks like the following:</p>
      -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
      -F <span class="s2">"version=3.9"</span>
 </code></pre>
+<blockquote>
+<p>The example response body will look like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c24470f944d8477fac4938c34143cc3c"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="s2">"model"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrf"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.9"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"output_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="s2">"output_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"percent_complete"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"required_input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"created"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T12:53:31"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_started"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_stopped"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span></code></pre>
 <p>This endpoint creates a new WRF run.</p>
 
 <aside class="warning">
@@ -379,6 +469,15 @@ Only WRF versions 3.8.1 and 3.9 are currently supported.
 </code></pre>
 <blockquote>
 <p><code>path_to_file</code> parameter must point to a valid input file, e.g. <code>wrfinput_d01</code>.</p>
+
+<p>The example response body will look like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f28764fb966846608b4cb47773d410b7"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>where <code>fileid</code> is the id assigned to the uploaded input file.</p>
 </blockquote>
 
 <p>This endpoint lets you upload an input file to your run.</p>
@@ -415,8 +514,13 @@ if you would like to get access to developer endpoints.
 <p><code>url_to_file</code> parameter must point to a valid input file
 on the web, e.g. <code>wrfinput_d01</code>. This could be a file
 hosted from an http or ftp server, or an Amazon S3 bucket.</p>
-</blockquote>
 
+<p>The example response body will look like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f28764fb966846608b4cb47773d410b7"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>This endpoint lets you upload an input file from a remote URL to your run.</p>
 
 <aside class="warning">
@@ -446,6 +550,11 @@ if you would like to get access to developer endpoints.
 </code></pre><pre class="highlight shell tab-shell"><code>curl -X POST https://api.cloudrun.co/v1/wrf/<span class="k">${</span><span class="nv">id</span><span class="k">}</span>/setup <span class="se">\</span>
      -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span>
 </code></pre>
+<blockquote>
+<p>The example response body will look like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="err">//</span><span class="w"> </span><span class="err">TODO</span><span class="w">
+</span></code></pre>
 <p>Use this endpoint to receive run-time and price options from Cloudrun.</p>
 
 <aside class="notice">
@@ -469,6 +578,47 @@ if you would like to get access to developer endpoints.
      -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
      -F <span class="s2">"cores=32"</span>
 </code></pre>
+<blockquote>
+<p>The example response body will look like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c24470f944d8477fac4938c34143cc3c"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f28764fb966846608b4cb47773d410b7"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">4436</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e770024687b74f3c8043119c4eb91533"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfinput_d01"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9605792</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"88208d2f83304ac9a60bdbf725afca2e"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">31341856</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"model"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrf"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.9"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"output_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="s2">"output_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"percent_complete"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"required_input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"wrfinput_d01"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"starting"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T12:53:31"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_started"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_stopped"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>Use this endpoint to start your run. <code>cores</code> must be one of 
 valid options from the response of <code>setup</code> endpoint.</p>
 
@@ -503,6 +653,47 @@ if you would like to get access to developer endpoints.
 </code></pre><pre class="highlight shell tab-shell"><code>curl -X POST https://api.cloudrun.co/v1/wrf/<span class="k">${</span><span class="nv">id</span><span class="k">}</span>/stop <span class="se">\</span>
      -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span>
 </code></pre>
+<blockquote>
+<p>The example response body will look like this:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f946f8c0d52e45d88952d66d19f727d6"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"97755b5e102f4342992621cf949ab71c"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">4436</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3c80152b5e2d4ddf9b83a008ef736682"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfinput_d01"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9605792</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cf7a5c653de64449b8695439905e4759"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">31341856</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"model"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrf"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.9"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"output_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="s2">"output_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"percent_complete"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"required_input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"wrfinput_d01"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stopped"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T17:17:01"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_started"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T17:19:23"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_stopped"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T18:26:20"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
 <p>Use this endpoint to stop your run.
 This should be necessary only if you want to stop your run
 before it completes.</p>
