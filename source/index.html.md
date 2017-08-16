@@ -91,6 +91,78 @@ curl "https://api.cloudrun.co/v1/wrf/$id"
   -H "Authorization: Bearer $token"
 ```
 
+> The response body will look like this:
+
+
+```json
+{
+  "id": "f946f8c0d52e45d88952d66d19f727d6",
+  "input_files": [
+    {
+      "fileid": "97755b5e102f4342992621cf949ab71c",
+      "filename": "namelist.input",
+      "size": 4436
+    },
+    {
+      "fileid": "3c80152b5e2d4ddf9b83a008ef736682",
+      "filename": "wrfinput_d01",
+      "size": 9605792
+    },
+    {
+      "fileid": "cf7a5c653de64449b8695439905e4759",
+      "filename": "wrfbdy_d01",
+      "size": 31341856
+    }
+  ],
+  "model": {
+    "name": "wrf",
+    "version": "3.9"
+  },
+  "output_files": [
+    {
+      "filename": "wrfout_d01_2016-12-25_00:00:00",
+      "size": 9030712
+    },
+    {
+      "filename": "wrfout_d01_2016-12-25_01:00:00",
+      "size": 9030712
+    },
+    {
+      "filename": "wrfout_d01_2016-12-25_02:00:00",
+      "size": 9030712
+    },
+    {
+      "filename": "wrfout_d01_2016-12-25_03:00:00",
+      "size": 9030712
+    },
+    {
+      "filename": "wrfout_d01_2016-12-25_04:00:00",
+      "size": 9030712
+    },
+    {
+      "filename": "wrfout_d01_2016-12-25_05:00:00",
+      "size": 9030712
+    },
+    {
+      "filename": "wrfout_d01_2016-12-25_06:00:00",
+      "size": 9030712
+    },
+  ],
+  "output_size": 225767800,
+  "percent_complete": 100.0,
+  "remaining_time": 0,
+  "required_input_files": [
+    "namelist.input",
+    "wrfbdy_d01",
+    "wrfinput_d01"
+  ],
+  "status": "done",
+  "time_created": "2017-08-16T17:17:01",
+  "time_started": "2017-08-16T17:19:48",
+  "time_stopped": "2017-08-16T17:23:58"
+}
+```
+
 This endpoint retrieves a specific WRF run that you own or have access to.
 
 ### URL parameters
@@ -112,6 +184,27 @@ run = api.create_run(model='wrf',version='3.9')
 curl -X POST https://api.cloudrun.co/v1/wrf \
      -H "Authorization: Bearer $token" \
      -F "version=3.9"
+```
+
+> The example response body will look like this:
+
+```json
+{
+  "id": "c24470f944d8477fac4938c34143cc3c",
+  "input_files": [],
+  "model": {
+    "name": "wrf",
+    "version": "3.9"
+  },
+  "output_files": [],
+  "output_size": 0,
+  "percent_complete": null,
+  "remaining_time": null,
+  "required_input_files": [],
+  "status": "created",
+  "time_created": "2017-08-16T12:53:31",
+  "time_started": null,
+  "time_stopped": null
 ```
 
 This endpoint creates a new WRF run.
@@ -154,6 +247,16 @@ curl -X POST https://api.cloudrun.co/v1/wrf/${id}/upload \
 
 > `path_to_file` parameter must point to a valid input file, e.g. `wrfinput_d01`.
 
+> The example response body will look like this:
+
+```json
+{
+  "fileid": "f28764fb966846608b4cb47773d410b7"
+}
+```
+
+> where `fileid` is the id assigned to the uploaded input file.
+
 This endpoint lets you upload an input file to your run.
 
 <aside class="warning">
@@ -192,6 +295,14 @@ curl -X POST https://api.cloudrun.co/v1/wrf/${id}/upload_url \
 on the web, e.g. `wrfinput_d01`. This could be a file
 hosted from an http or ftp server, or an Amazon S3 bucket.
 
+> The example response body will look like this:
+
+```json
+{
+  "fileid": "f28764fb966846608b4cb47773d410b7"
+}
+```
+
 This endpoint lets you upload an input file from a remote URL to your run.
 
 <aside class="warning">
@@ -225,6 +336,12 @@ curl -X POST https://api.cloudrun.co/v1/wrf/${id}/setup \
      -H "Authorization: Bearer $token"
 ```
 
+> The example response body will look like this:
+
+```json
+// TODO
+```
+
 Use this endpoint to receive run-time and price options from Cloudrun.
 
 <aside class="notice">
@@ -256,6 +373,48 @@ run.start(cores=32)
 curl -X POST https://api.cloudrun.co/v1/wrf/${id}/start \
      -H "Authorization: Bearer $token" \
      -F "cores=32"
+```
+
+> The example response body will look like this:
+
+```json
+{
+  "id": "c24470f944d8477fac4938c34143cc3c",
+  "input_files": [
+    {
+      "fileid": "f28764fb966846608b4cb47773d410b7",
+      "filename": "namelist.input",
+      "size": 4436
+    },
+    {
+      "fileid": "e770024687b74f3c8043119c4eb91533",
+      "filename": "wrfinput_d01",
+      "size": 9605792
+    },
+    {
+      "fileid": "88208d2f83304ac9a60bdbf725afca2e",
+      "filename": "wrfbdy_d01",
+      "size": 31341856
+    }
+  ],
+  "model": {
+    "name": "wrf",
+    "version": "3.9"
+  },
+  "output_files": [],
+  "output_size": 0,
+  "percent_complete": null,
+  "remaining_time": null,
+  "required_input_files": [
+    "namelist.input",
+    "wrfbdy_d01",
+    "wrfinput_d01"
+  ],
+  "status": "starting",
+  "time_created": "2017-08-16T12:53:31",
+  "time_started": null,
+  "time_stopped": null
+}
 ```
 
 Use this endpoint to start your run. `cores` must be one of 
@@ -294,6 +453,48 @@ run.stop()
 ```shell
 curl -X POST https://api.cloudrun.co/v1/wrf/${id}/stop \
      -H "Authorization: Bearer $token"
+```
+
+> The example response body will look like this:
+
+```json
+{
+  "id": "f946f8c0d52e45d88952d66d19f727d6",
+  "input_files": [
+    {
+      "fileid": "97755b5e102f4342992621cf949ab71c",
+      "filename": "namelist.input",
+      "size": 4436
+    },
+    {
+      "fileid": "3c80152b5e2d4ddf9b83a008ef736682",
+      "filename": "wrfinput_d01",
+      "size": 9605792
+    },
+    {
+      "fileid": "cf7a5c653de64449b8695439905e4759",
+      "filename": "wrfbdy_d01",
+      "size": 31341856
+    }
+  ],
+  "model": {
+    "name": "wrf",
+    "version": "3.9"
+  },
+  "output_files": [],
+  "output_size": 0,
+  "percent_complete": null,
+  "remaining_time": null,
+  "required_input_files": [
+    "namelist.input",
+    "wrfbdy_d01",
+    "wrfinput_d01"
+  ],
+  "status": "stopped",
+  "time_created": "2017-08-16T17:17:01",
+  "time_started": "2017-08-16T17:19:23",
+  "time_stopped": "2017-08-16T18:26:20"
+}
 ```
 
 Use this endpoint to stop your run.
