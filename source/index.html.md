@@ -18,8 +18,8 @@ search: true
 
 Welcome to the Cloudrun API!
 
-We have language bindings in for shell (using curl) and Python! 
-You can view code examples in the dark area to the right, 
+We have language bindings in for shell (using curl) and Python!
+You can view code examples in the dark area to the right,
 and you can switch the programming language of the examples with the tabs in the top right.
 
 # Authentication
@@ -29,31 +29,172 @@ and you can switch the programming language of the examples with the tabs in the
 ```python
 from cloudrun import Cloudrun
 
-api = Cloudrun(token) 
+api = Cloudrun(token)
 ```
 
 ```shell
-# With shell, you can just pass the correct header with each request
+# With curl, pass the authentication header with each request
 curl https://api.cloudrun.co/v1/wrf
     -H "Authorization: Bearer $token"
 ```
 
-> Make sure to set the `token` parameter with your API key.
+> Make sure to set the `token` parameter to your API token.
 
-Cloudrun uses API tokens to allow access to the API. 
-You can reqest a new Cloudrun API token via e-mail at 
+Cloudrun uses API tokens to allow access to the API.
+You can reqest a new Cloudrun API token via e-mail at
 [accounts@cloudrun.co](mailto:accounts@cloudrun.co).
 
-Cloudrun expects for the API token to be included in all API requests to the server 
-in a header that looks like the following:
+Cloudrun expects for the API token to be included in all API requests to the
+server in a header that looks like this:
 
 `Authorization: Bearer $token`
 
 <aside class="notice">
-<code>token</code> environement variable must be set to your personal API token.
+<code>token</code> environment variable must be set to your personal API token.
 </aside>
 
 # WRF
+
+## Introduction
+
+TODO: write intro here
+
+## WRF response object
+
+```json
+{
+  "compute_options": [
+    {
+      "cores": 1,
+      "cost": 1.0,
+      "time": 12203
+    },
+    {
+      "cores": 2,
+      "cost": 1.14,
+      "time": 6560
+    },
+    {
+      "cores": 4,
+      "cost": 1.9,
+      "time": 3738
+    },
+    {
+      "cores": 8,
+      "cost": 1.9,
+      "time": 2327
+    },
+    {
+      "cores": 16,
+      "cost": 3.16,
+      "time": 1621
+    },
+    {
+      "cores": 32,
+      "cost": 5.21,
+      "time": 1268
+    }
+  ],
+  "cores": null,
+  "error": null,
+  "id": "1886418d82e7419fbe79cc5e9c96549a",
+  "input_files": [
+    {
+      "fileid": "3d1a47932b2641ff93933c1a22a37cbb",
+      "filename": "namelist.input",
+      "size": 4438
+    }
+  ],
+  "model": {
+    "domain_shape": [
+      [
+        30,
+        240,
+        320
+      ]
+    ],
+    "domains": 1,
+    "dt": 60,
+    "dx": [
+      12000
+    ],
+    "dy": [
+      12000
+    ],
+    "end_time": [
+      "2016-12-26_00:00:00"
+    ],
+    "name": "wrf",
+    "output_interval": [
+      60
+    ],
+    "start_time": [
+      "2016-12-25_00:00:00"
+    ],
+    "version": "3.9"
+  },
+  "output_files": [],
+  "output_size": 0,
+  "percent_complete": null,
+  "remaining_time": null,
+  "required_input_files": [
+    "namelist.input",
+    "wrfbdy_d01",
+    "wrfinput_d01"
+  ],
+  "status": "ready",
+  "time_created": "2017-09-17_21:14:27",
+  "time_started": null,
+  "time_stopped": null
+}
+```
+Most WRF endpoints return a WRF object in the response body.  
+
+* `compute_options`: A list of dictionaries that can contain multiple options
+of parallel cores to use, compute cost, and estimated run time. Simulations
+using more parallel cores can finish in less time, but also cost more.
+ Each dictionary contains the following fields:
+  - `cores`: number of parallel cores (CPUs) to use for the simulation.
+  - `cost`: compute cost in US dollars. Your account will be charged with this
+  amount at when the simulation is finished.
+  - `time`: estimated run time in seconds.
+* `cores`: Number of cores selected for the simulation. This parameter is set by the user
+when making the request at `https://api.cloudrun.co/v1/wrf/{id}/start`.
+`null` if run not yet started.
+* `error`: A dictionary with error status and message. `null` if no error.
+* `id`: A unique run id.
+* `input_files`: A list of dictionaries, one for each input file. Each dictionary contains fields:
+  - `fileid`: unique file id
+  - `filename`: input file name
+  - `size`: file size in bytes
+* `model`: A dictionary with following fields:
+  - `domain_shape` (grid size in z, y, and x)
+  - `domains` (number of WRF nests),
+  - `dt` (time step in seconds)
+  - `dx`
+  - `dy`
+  - `dz` (grid spacing)
+  - `end_time`
+  - `name`
+  - `output_interval`
+  - `start_time`
+  - `version`.
+* `output_files`: A list of dictionaries, one for each output_file.
+* `output_size`: Total output size in bytes
+* `percent_complete`: Current percentage of simulation complete. `null` if run not yet started.
+* `remaining_time`: Remaining time in seconds until complete. `null` if run not yet started.
+* `required_input_files`: A list of required input files that must be uploaded before starting the run.
+* `status`: A status string that can have one of the following values:
+  - `created`
+  - `ready`
+  - `starting`
+  - `active`
+  - `stopped`
+  - `done`
+  - `error`
+* `time_created`: Time in UTC when the run resource was created.
+* `time_started`: Time in UTC when the run resource was started.
+* `time_stopped`: Time in UTC when the run resource stopped.
 
 ## Get all WRF runs
 
@@ -69,13 +210,15 @@ curl https://api.cloudrun.co/v1/wrf
     -H "Authorization: Bearer $token"
 ```
 
-> `token` parameter must be set to your personal API token. 
-
 This endpoint retrieves all WRF runs that you own or have access to.
 
 ### HTTP Request
 
 `GET https://api.cloudrun.co/v1/wrf`
+
+### Response
+
+The response body contains the WRF object.
 
 ## Get a specific WRF run
 
@@ -92,7 +235,6 @@ curl "https://api.cloudrun.co/v1/wrf/$id"
 ```
 
 > The response body will look like this:
-
 
 ```json
 {
@@ -171,6 +313,10 @@ Parameter | Description
 --------- | -----------
 id        | The id of the WRF run to retrieve
 
+### Response
+
+The response body contains the WRF object.
+
 ## Create a new run
 
 ```python
@@ -205,13 +351,13 @@ curl -X POST https://api.cloudrun.co/v1/wrf \
   "time_created": "2017-08-16T12:53:31",
   "time_started": null,
   "time_stopped": null
-```
+  ```
 
 This endpoint creates a new WRF run.
 
 <aside class="warning">
 This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
+<a href='mailto:accounts@cloudrun.co'>E-mail us</a>
 if you would like to get access to developer endpoints.
 </aside>
 
@@ -261,7 +407,7 @@ This endpoint lets you upload an input file to your run.
 
 <aside class="warning">
 This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
+<a href='mailto:accounts@cloudrun.co'>E-mail us</a>
 if you would like to get access to developer endpoints.
 </aside>
 
@@ -307,7 +453,7 @@ This endpoint lets you upload an input file from a remote URL to your run.
 
 <aside class="warning">
 This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
+<a href='mailto:accounts@cloudrun.co'>E-mail us</a>
 if you would like to get access to developer endpoints.
 </aside>
 
@@ -320,44 +466,6 @@ if you would like to get access to developer endpoints.
 Parameter | Description
 --------- | -----------
 url       | URL to a remote input file
-
-## Setup your WRF run
-
-```python
-from cloudrun import Cloudrun
-
-api = Cloudrun(token)
-run = api.get_run(id)
-run.setup()
-```
-
-```shell
-curl -X POST https://api.cloudrun.co/v1/wrf/${id}/setup \
-     -H "Authorization: Bearer $token"
-```
-
-> The example response body will look like this:
-
-```json
-// TODO
-```
-
-Use this endpoint to receive run-time and price options from Cloudrun.
-
-<aside class="notice">
-If setting up a WRF run, this endpoint can be used only after
-uploading the `namelist.input` file via the `upload` endpoint.
-</aside>
-
-<aside class="warning">
-This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
-if you would like to get access to developer endpoints.
-</aside>
-
-### HTTP Request
-
-`POST https://api.cloudrun.co/v1/wrf/{id}/setup`
 
 ## Start your WRF run
 
@@ -417,7 +525,7 @@ curl -X POST https://api.cloudrun.co/v1/wrf/${id}/start \
 }
 ```
 
-Use this endpoint to start your run. `cores` must be one of 
+Use this endpoint to start your run. `cores` must be one of
 valid options from the response of `setup` endpoint.
 
 <aside class="notice">
@@ -426,7 +534,7 @@ This endpoint can be used only after calling the `setup` endpoint.
 
 <aside class="warning">
 This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
+<a href='mailto:accounts@cloudrun.co'>E-mail us</a>
 if you would like to get access to developer endpoints.
 </aside>
 
@@ -507,7 +615,7 @@ This endpoint can be used only after calling the `start` endpoint.
 
 <aside class="warning">
 This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
+<a href='mailto:accounts@cloudrun.co'>E-mail us</a>
 if you would like to get access to developer endpoints.
 </aside>
 
@@ -534,12 +642,12 @@ Use this endpoint to delete the output files from your run.
 You will still be able to access the metadata of your run.
 
 <aside class="warning">
-This request cannot be undone. 
+This request cannot be undone.
 </aside>
 
 <aside class="warning">
 This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
+<a href='mailto:accounts@cloudrun.co'>E-mail us</a>
 if you would like to get access to developer endpoints.
 </aside>
 
