@@ -229,6 +229,12 @@
             <a href="#wrf" class="toc-h1 toc-link" data-title="WRF">WRF</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#introduction-2" class="toc-h2 toc-link" data-title="WRF">Introduction</a>
+                  </li>
+                  <li>
+                    <a href="#wrf-response-object" class="toc-h2 toc-link" data-title="WRF">WRF response object</a>
+                  </li>
+                  <li>
                     <a href="#get-all-wrf-runs" class="toc-h2 toc-link" data-title="WRF">Get all WRF runs</a>
                   </li>
                   <li>
@@ -242,9 +248,6 @@
                   </li>
                   <li>
                     <a href="#upload-input-file-by-url" class="toc-h2 toc-link" data-title="WRF">Upload input file by URL</a>
-                  </li>
-                  <li>
-                    <a href="#setup-your-wrf-run" class="toc-h2 toc-link" data-title="WRF">Setup your WRF run</a>
                   </li>
                   <li>
                     <a href="#start-your-wrf-run" class="toc-h2 toc-link" data-title="WRF">Start your WRF run</a>
@@ -271,8 +274,8 @@
         <h1 id='introduction'>Introduction</h1>
 <p>Welcome to the Cloudrun API!</p>
 
-<p>We have language bindings in for shell (using curl) and Python! 
-You can view code examples in the dark area to the right, 
+<p>We have language bindings in for shell (using curl) and Python!
+You can view code examples in the dark area to the right,
 and you can switch the programming language of the examples with the tabs in the top right.</p>
 <h1 id='authentication'>Authentication</h1>
 <blockquote>
@@ -280,41 +283,203 @@ and you can switch the programming language of the examples with the tabs in the
 </blockquote>
 <pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span> 
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
+<span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With curl, pass the authentication header with each request</span>
 curl https://api.cloudrun.co/v1/wrf
     -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span>
 </code></pre>
 <blockquote>
-<p>Make sure to set the <code>token</code> parameter with your API key.</p>
+<p>Make sure to set the <code>token</code> parameter to your API token.</p>
 </blockquote>
 
-<p>Cloudrun uses API tokens to allow access to the API. 
-You can reqest a new Cloudrun API token via e-mail at 
+<p>Cloudrun uses API tokens to allow access to the API.
+You can reqest a new Cloudrun API token via e-mail at
 <a href="mailto:accounts@cloudrun.co">accounts@cloudrun.co</a>.</p>
 
-<p>Cloudrun expects for the API token to be included in all API requests to the server 
-in a header that looks like the following:</p>
+<p>Cloudrun expects for the API token to be included in all API requests to the
+server in a header that looks like this:</p>
 
 <p><code>Authorization: Bearer $token</code></p>
 
 <aside class="notice">
-<code>token</code> environement variable must be set to your personal API token.
+<code>token</code> environment variable must be set to your personal API token.
 </aside>
-<h1 id='wrf'>WRF</h1><h2 id='get-all-wrf-runs'>Get all WRF runs</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
+<h1 id='wrf'>WRF</h1><h2 id='introduction-2'>Introduction</h2>
+<p>TODO: write intro here</p>
+<h2 id='wrf-response-object'>WRF response object</h2><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"compute_options"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"cores"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"cost"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">12203</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"cores"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"cost"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.14</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">6560</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"cores"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"cost"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.9</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">3738</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"cores"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"cost"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.9</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">2327</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"cores"</span><span class="p">:</span><span class="w"> </span><span class="mi">16</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"cost"</span><span class="p">:</span><span class="w"> </span><span class="mf">3.16</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1621</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"cores"</span><span class="p">:</span><span class="w"> </span><span class="mi">32</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"cost"</span><span class="p">:</span><span class="w"> </span><span class="mf">5.21</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">1268</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"cores"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"error"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1886418d82e7419fbe79cc5e9c96549a"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3d1a47932b2641ff93933c1a22a37cbb"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">4438</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"model"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"domain_shape"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">[</span><span class="w">
+        </span><span class="mi">30</span><span class="p">,</span><span class="w">
+        </span><span class="mi">240</span><span class="p">,</span><span class="w">
+        </span><span class="mi">320</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"domains"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"dt"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"dx"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="mi">12000</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"dy"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="mi">12000</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"end_time"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"2016-12-26_00:00:00"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrf"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"output_interval"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="mi">60</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"start_time"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"2016-12-25_00:00:00"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.9"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"output_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
+  </span><span class="s2">"output_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"percent_complete"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"required_input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"wrfinput_d01"</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ready"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-09-17_21:14:27"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_started"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"time_stopped"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Most WRF endpoints return a WRF object in JSON format in the response body.
+See an example response on the right.  </p>
+
+<ul>
+<li><strong>compute_options</strong>: A list of dictionaries that can contain multiple options
+of parallel cores to use, compute cost, and estimated run time. Simulations
+using more parallel cores can finish in less time, but also cost more.
+Each dictionary contains the following fields:
+
+<ul>
+<li><strong>cores</strong>: number of parallel cores (CPUs) to use for the simulation.</li>
+<li><strong>cost</strong>: compute cost in US dollars. Your account will be charged with this
+amount at when the simulation is finished.</li>
+<li><strong>time</strong>: estimated run time in seconds.</li>
+</ul></li>
+<li><strong>cores</strong>: Number of cores selected for the simulation. This parameter is set by the user
+when making the request at <code>https://api.cloudrun.co/v1/wrf/{id}/start</code>.
+<code>null</code> if run not yet started.</li>
+<li><strong>error</strong>: A dictionary with error status and message. <code>null</code> if no error.</li>
+<li><strong>id</strong>: Unique run id.</li>
+<li><strong>input_files</strong>: A list of dictionaries, one for each input file. Each dictionary contains fields:
+
+<ul>
+<li><strong>fileid</strong>: Unique input file id.</li>
+<li><strong>filename</strong>: Input file name.</li>
+<li><strong>size</strong>: File size in bytes.</li>
+</ul></li>
+<li><strong>model</strong>: A dictionary with the following fields:
+
+<ul>
+<li><strong>domain_shape</strong>: Domain grid sizes in z, y, and x dimensions, one triplet for each domain.</li>
+<li><strong>domains</strong>: Number of WRF domains (nests).</li>
+<li><strong>dt</strong>: Time step [s], one for each domain.</li>
+<li><strong>dx</strong>: Grid spacing in x [meters], one for each domain.</li>
+<li><strong>dy</strong>: Grid spacing in y [meters], one for each domain.</li>
+<li><strong>end_time</strong>: Simulation end time, one for each domain. The time is in UTC and
+using ISO 8601 standard, <code>%Y-%m-%d_%H:%M:%S</code>.</li>
+<li><strong>name</strong>: Model name, e.g. <code>wrf</code>.</li>
+<li><strong>output_interval</strong>: Time interval between output files in minutes, one for each domain.</li>
+<li><strong>start_time</strong>: Simulation start time, one for each domain. The time is in UTC and
+using ISO 8601 standard, <code>%Y-%m-%d_%H:%M:%S</code>.</li>
+<li><strong>version</strong>: Model version, e.g. <code>3.9</code>.</li>
+</ul></li>
+<li><strong>output_files</strong>: A list of dictionaries, one for each output_file.
+Each dictionary contains the following fields:
+
+<ul>
+<li><strong>filename</strong>: Output file name.</li>
+<li><strong>size</strong>: File size in bytes.</li>
+</ul></li>
+<li><strong>output_size</strong>: Total output size in bytes.</li>
+<li><strong>percent_complete</strong>: Current percentage of simulation complete.
+<code>null</code> if run not yet started, and <code>100.0</code> if complete.</li>
+<li><strong>remaining_time</strong>: Remaining time in seconds until complete.
+<code>null</code> if run not yet started, and <code>0</code> if complete.</li>
+<li><strong>required_input_files</strong>: A list of required input files that must be uploaded
+before starting the run.</li>
+<li><strong>status</strong>: A status string that can have one of the following values:
+
+<ul>
+<li><code>created</code>: A run resource has been successfully created but not started.</li>
+<li><code>ready</code>: The run resource is configured and waiting for user request to start.</li>
+<li><code>starting</code>: The run resource received user request to start, and is in the
+process of spinning up compute nodes and uploading files.</li>
+<li><code>active</code>: The run is currently in progress.</li>
+<li><code>stopped</code>: The run was stopped by the user before completion.</li>
+<li><code>done</code>: The run was successfully completed.</li>
+<li><code>error</code>: The run encountered an error and has stopped. See the <em>error</em> field for more information.</li>
+</ul></li>
+<li><strong>time_created</strong>: Time when the run resource was created. The time is in UTC and
+using ISO 8601 standard, <code>%Y-%m-%d_%H:%M:%S</code>.</li>
+<li><strong>time_started</strong>: Time when the run resource was started. The time is in UTC and
+using ISO 8601 standard, <code>%Y-%m-%d_%H:%M:%S</code>.</li>
+<li><strong>time_stopped</strong>: Time when the run resource stopped. The time is in UTC and
+using ISO 8601 standard, <code>%Y-%m-%d_%H:%M:%S</code>.</li>
+</ul>
+<h2 id='get-all-wrf-runs'>Get all WRF runs</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
 <span class="n">runs</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_all_runs</span><span class="p">()</span>
 </code></pre><pre class="highlight shell tab-shell"><code>curl https://api.cloudrun.co/v1/wrf
     -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span>
 </code></pre>
-<blockquote>
-<p><code>token</code> parameter must be set to your personal API token. </p>
-</blockquote>
-
 <p>This endpoint retrieves all WRF runs that you own or have access to.</p>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code>GET https://api.cloudrun.co/v1/wrf</code></p>
+<h3 id='response'>Response</h3>
+<p>The response body contains the WRF object.</p>
 <h2 id='get-a-specific-wrf-run'>Get a specific WRF run</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
@@ -322,76 +487,6 @@ in a header that looks like the following:</p>
 </code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.cloudrun.co/v1/wrf/</span><span class="nv">$id</span><span class="s2">"</span>
   -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span>
 </code></pre>
-<blockquote>
-<p>The response body will look like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f946f8c0d52e45d88952d66d19f727d6"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"97755b5e102f4342992621cf949ab71c"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">4436</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3c80152b5e2d4ddf9b83a008ef736682"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfinput_d01"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9605792</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cf7a5c653de64449b8695439905e4759"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">31341856</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"model"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrf"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.9"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"output_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_00:00:00"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_01:00:00"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_02:00:00"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_03:00:00"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_04:00:00"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_05:00:00"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfout_d01_2016-12-25_06:00:00"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9030712</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"output_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">225767800</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"percent_complete"</span><span class="p">:</span><span class="w"> </span><span class="mf">100.0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"required_input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"wrfinput_d01"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"done"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T17:17:01"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_started"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T17:19:48"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_stopped"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T17:23:58"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 <p>This endpoint retrieves a specific WRF run that you own or have access to.</p>
 <h3 id='url-parameters'>URL parameters</h3>
 <table><thead>
@@ -405,6 +500,8 @@ in a header that looks like the following:</p>
 <td>The id of the WRF run to retrieve</td>
 </tr>
 </tbody></table>
+<h3 id='response-2'>Response</h3>
+<p>The response body contains the WRF object.</p>
 <h2 id='create-a-new-run'>Create a new run</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
@@ -413,33 +510,7 @@ in a header that looks like the following:</p>
      -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
      -F <span class="s2">"version=3.9"</span>
 </code></pre>
-<blockquote>
-<p>The example response body will look like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c24470f944d8477fac4938c34143cc3c"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-  </span><span class="s2">"model"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrf"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.9"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"output_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-  </span><span class="s2">"output_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"percent_complete"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"required_input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"created"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T12:53:31"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_started"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_stopped"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
-</span></code></pre>
 <p>This endpoint creates a new WRF run.</p>
-
-<aside class="warning">
-This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
-if you would like to get access to developer endpoints.
-</aside>
 <h3 id='http-request-2'>HTTP Request</h3>
 <p><code>POST https://api.cloudrun.co/v1/wrf</code></p>
 <h3 id='form-parameters'>Form parameters</h3>
@@ -458,6 +529,8 @@ if you would like to get access to developer endpoints.
 <aside class="notice">
 Only WRF versions 3.8.1 and 3.9 are currently supported.
 </aside>
+<h3 id='response-3'>Response</h3>
+<p>The response body contains the WRF object.</p>
 <h2 id='upload-input-file'>Upload input file</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
@@ -481,12 +554,6 @@ Only WRF versions 3.8.1 and 3.9 are currently supported.
 </blockquote>
 
 <p>This endpoint lets you upload an input file to your run.</p>
-
-<aside class="warning">
-This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
-if you would like to get access to developer endpoints.
-</aside>
 <h3 id='http-request-3'>HTTP Request</h3>
 <p><code>POST https://api.cloudrun.co/v1/wrf/{id}/upload</code></p>
 <h3 id='form-parameters-2'>Form parameters</h3>
@@ -501,7 +568,7 @@ if you would like to get access to developer endpoints.
 <td>Path to a valid input file</td>
 </tr>
 </tbody></table>
-<h2 id='upload-input-file-by-url'>Upload input file by URL</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
+<h3 id='response-4'>Response</h3><h2 id='upload-input-file-by-url'>Upload input file by URL</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
 <span class="n">run</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_run</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
@@ -522,12 +589,6 @@ hosted from an http or ftp server, or an Amazon S3 bucket.</p>
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint lets you upload an input file from a remote URL to your run.</p>
-
-<aside class="warning">
-This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
-if you would like to get access to developer endpoints.
-</aside>
 <h3 id='http-request-4'>HTTP Request</h3>
 <p><code>POST https://api.cloudrun.co/v1/wrf/{id}/upload_url</code></p>
 <h3 id='form-parameters-3'>Form parameters</h3>
@@ -542,34 +603,7 @@ if you would like to get access to developer endpoints.
 <td>URL to a remote input file</td>
 </tr>
 </tbody></table>
-<h2 id='setup-your-wrf-run'>Setup your WRF run</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
-<span class="n">run</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_run</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
-<span class="n">run</span><span class="o">.</span><span class="n">setup</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl -X POST https://api.cloudrun.co/v1/wrf/<span class="k">${</span><span class="nv">id</span><span class="k">}</span>/setup <span class="se">\</span>
-     -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span>
-</code></pre>
-<blockquote>
-<p>The example response body will look like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="err">//</span><span class="w"> </span><span class="err">TODO</span><span class="w">
-</span></code></pre>
-<p>Use this endpoint to receive run-time and price options from Cloudrun.</p>
-
-<aside class="notice">
-If setting up a WRF run, this endpoint can be used only after
-uploading the `namelist.input` file via the `upload` endpoint.
-</aside>
-
-<aside class="warning">
-This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
-if you would like to get access to developer endpoints.
-</aside>
-<h3 id='http-request-5'>HTTP Request</h3>
-<p><code>POST https://api.cloudrun.co/v1/wrf/{id}/setup</code></p>
-<h2 id='start-your-wrf-run'>Start your WRF run</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
+<h3 id='response-5'>Response</h3><h2 id='start-your-wrf-run'>Start your WRF run</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
 <span class="n">run</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_run</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span>
@@ -578,60 +612,13 @@ if you would like to get access to developer endpoints.
      -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
      -F <span class="s2">"cores=32"</span>
 </code></pre>
-<blockquote>
-<p>The example response body will look like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"c24470f944d8477fac4938c34143cc3c"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f28764fb966846608b4cb47773d410b7"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">4436</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"e770024687b74f3c8043119c4eb91533"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfinput_d01"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9605792</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"88208d2f83304ac9a60bdbf725afca2e"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">31341856</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"model"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrf"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.9"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"output_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-  </span><span class="s2">"output_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"percent_complete"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"required_input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"wrfinput_d01"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"starting"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T12:53:31"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_started"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_stopped"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<p>Use this endpoint to start your run. <code>cores</code> must be one of 
+<p>Use this endpoint to start your run. <code>cores</code> must be one of
 valid options from the response of <code>setup</code> endpoint.</p>
 
 <aside class="notice">
-This endpoint can be used only after calling the `setup` endpoint.
+This endpoint can be used only after uploading the `namelist.input` file.
 </aside>
-
-<aside class="warning">
-This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
-if you would like to get access to developer endpoints.
-</aside>
-<h3 id='http-request-6'>HTTP Request</h3>
+<h3 id='http-request-5'>HTTP Request</h3>
 <p><code>POST https://api.cloudrun.co/v1/wrf/{id}/start</code></p>
 <h3 id='form-parameters-4'>Form parameters</h3>
 <table><thead>
@@ -645,6 +632,8 @@ if you would like to get access to developer endpoints.
 <td>Number of compute cores to use</td>
 </tr>
 </tbody></table>
+<h3 id='response-6'>Response</h3>
+<p>The response body contains the WRF object.</p>
 <h2 id='stop-your-wrf-run'>Stop your WRF run</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
@@ -653,47 +642,6 @@ if you would like to get access to developer endpoints.
 </code></pre><pre class="highlight shell tab-shell"><code>curl -X POST https://api.cloudrun.co/v1/wrf/<span class="k">${</span><span class="nv">id</span><span class="k">}</span>/stop <span class="se">\</span>
      -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span>
 </code></pre>
-<blockquote>
-<p>The example response body will look like this:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"f946f8c0d52e45d88952d66d19f727d6"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"97755b5e102f4342992621cf949ab71c"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">4436</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3c80152b5e2d4ddf9b83a008ef736682"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfinput_d01"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">9605792</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="p">{</span><span class="w">
-      </span><span class="s2">"fileid"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cf7a5c653de64449b8695439905e4759"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"filename"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
-      </span><span class="s2">"size"</span><span class="p">:</span><span class="w"> </span><span class="mi">31341856</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"model"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"wrf"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.9"</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="s2">"output_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[],</span><span class="w">
-  </span><span class="s2">"output_size"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"percent_complete"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"remaining_time"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"required_input_files"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="s2">"namelist.input"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"wrfbdy_d01"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"wrfinput_d01"</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"stopped"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_created"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T17:17:01"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_started"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T17:19:23"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"time_stopped"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2017-08-16T18:26:20"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
 <p>Use this endpoint to stop your run.
 This should be necessary only if you want to stop your run
 before it completes.</p>
@@ -701,14 +649,10 @@ before it completes.</p>
 <aside class="notice">
 This endpoint can be used only after calling the `start` endpoint.
 </aside>
-
-<aside class="warning">
-This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
-if you would like to get access to developer endpoints.
-</aside>
-<h3 id='http-request-7'>HTTP Request</h3>
+<h3 id='http-request-6'>HTTP Request</h3>
 <p><code>POST https://api.cloudrun.co/v1/wrf/{id}/stop</code></p>
+<h3 id='response-7'>Response</h3>
+<p>The response body contains the WRF object.</p>
 <h2 id='delete-your-wrf-run'>Delete your WRF run</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">cloudrun</span> <span class="kn">import</span> <span class="n">Cloudrun</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="n">Cloudrun</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
@@ -721,16 +665,12 @@ if you would like to get access to developer endpoints.
 You will still be able to access the metadata of your run.</p>
 
 <aside class="warning">
-This request cannot be undone. 
+This request cannot be undone.
 </aside>
-
-<aside class="warning">
-This endpoint is currently not open to users.
-<a href='mailto:accounts@cloudrun.co'>E-mail us</a> 
-if you would like to get access to developer endpoints.
-</aside>
-<h3 id='http-request-8'>HTTP Request</h3>
+<h3 id='http-request-7'>HTTP Request</h3>
 <p><code>DELETE https://api.cloudrun.co/v1/wrf/{id}</code></p>
+<h3 id='response-8'>Response</h3>
+<p>The response body contains the WRF object.</p>
 <h1 id='errors'>Errors</h1>
 <p>The Cloudrun API uses the following error codes:</p>
 
