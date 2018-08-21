@@ -272,9 +272,14 @@
       <div class="dark-box"></div>
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Cloudrun API!</p>
+<p>Welcome to the Cloudrun API!
+You can use it to create, configure, and run your own 
+WRF simulations in the cloud, either from command line
+or from your own custom application.
+Explore our API docs and feel free to reach out for help
+at <a href='mailto:help@cloudrun.co'>help@cloudrun.co</a>!</p>
 
-<p>We have language bindings in for shell (using curl) and Python!
+<p>We have language bindings in shell (using curl) and Python!
 You can view code examples in the dark area to the right,
 and you can switch the programming language of the examples with the tabs in the top right.</p>
 <h1 id='authentication'>Authentication</h1>
@@ -329,17 +334,17 @@ in the response.</p>
 </tr>
 </thead><tbody>
 <tr>
-<td>model</td>
-<td>Name of model to use</td>
+<td><code>model</code></td>
+<td>Name of model to use, e.g. <code>&quot;wrf&quot;</code></td>
 </tr>
 <tr>
-<td>version</td>
-<td>Model version to use</td>
+<td><code>version</code></td>
+<td>Model version to use, e.g. <code>&quot;3.9.1&quot;</code></td>
 </tr>
 </tbody></table>
 
 <aside class="notice">
-The only model option currently supported is `wrf`.
+Only `wrf` model option is currently supported.
 </aside>
 
 <aside class="notice">
@@ -576,7 +581,14 @@ namelist file namelist.input from url:</p>
 </tbody></table>
 <h2 id='selecting-your-compute-option'>Selecting your compute option</h2><pre class="highlight shell tab-shell"><code>curl -X PATCH <span class="k">${</span><span class="nv">CLOUDRUN_API_URL</span><span class="k">}</span>/runs/<span class="k">${</span><span class="nv">id</span><span class="k">}</span> <span class="se">\</span>
      -H <span class="s2">"Authorization: Bearer </span><span class="nv">$CLOUDRUN_API_TOKEN</span><span class="s2">"</span> <span class="se">\</span>
+     -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
+     -d <span class="s1">'[{"op":"replace","path":"/selected_compute_option","value":{"compute_option_id":"'</span><span class="k">${</span><span class="nv">compute_option_id</span><span class="k">}</span><span class="s1">'"}}]'</span>
+
 </code></pre>
+<aside class="notice">
+Working with Python API? You can select your compute option when starting your run.
+</aside>
+
 <p>After you have uploaded a valid WRF namelist file (<code>namelist.input</code>),
 Cloudrun server will parse the namelist and return a number of available
 compute options in the response. Each option uses a different number of
@@ -613,33 +625,18 @@ parallel cores, and has different estimated time to completion and run price.</p
     </span><span class="s2">"time"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
-</span></code></pre><h2 id='starting-your-wrf-run'>Starting your WRF run</h2><pre class="highlight python tab-python"><code><span class="n">run</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">cores</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl -X POST https://api.cloudrun.co/v1/runs/<span class="k">${</span><span class="nv">id</span><span class="k">}</span>/start <span class="se">\</span>
-     -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
-     -F <span class="s2">"cores=32"</span>
+</span></code></pre><h3 id='http-request-4'>HTTP Request</h3>
+<p><code>PATCH https://api.cloudrun.co/v1/runs/{id}</code></p>
 
-<span class="c"># or</span>
-
-curl -X POST https://api.cloudrun.co/v1/runs/<span class="k">${</span><span class="nv">id</span><span class="k">}</span>/start <span class="se">\</span>
-     -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span> <span class="se">\</span>
-     -F <span class="s2">"selected_compute_option=</span><span class="nv">$compute_option_id</span><span class="s2">"</span>
-</code></pre>
-<p>Use this endpoint to start your run once it has been properly configured
-and all the input files have been uploaded.</p>
-
-<p>There are two different ways you can start your run:</p>
-
-<ol>
-<li>By passing a number of parallel cores (<code>cores</code>) in the request body.</li>
-<li>By passing a valid compute option ID in the request body.</li>
-</ol>
-
-<aside class="notice">
-This endpoint can be used only after uploading all the required input files.
-</aside>
-<h3 id='http-request-4'>HTTP Request</h3>
-<p><code>POST https://api.cloudrun.co/v1/wrf/{id}/start</code></p>
-<h3 id='form-parameters-4'>Form parameters</h3>
+<p>The request must include a JSON patch in the body, for example:</p>
+<pre class="highlight plaintext"><code>[
+  {
+    "op": "replace",
+    "path": "/selected_compute_option",
+    "value": {"compute_option_id": "7a3ecb91-a0c7-4f51-85c1-b62e7a7bf69d"}
+  }
+]
+</code></pre><h3 id='form-parameters-4'>Form parameters</h3>
 <table><thead>
 <tr>
 <th>Parameter</th>
@@ -647,11 +644,55 @@ This endpoint can be used only after uploading all the required input files.
 </tr>
 </thead><tbody>
 <tr>
-<td>cores</td>
-<td>Number of compute cores to use</td>
+<td><code>compute_option_id</code></td>
+<td>A unique ID that matches one of IDs in <code>compute_options</code> member of the <code>Run</code> JSON object</td>
 </tr>
 </tbody></table>
 <h3 id='response-5'>Response</h3>
+<p>The response body contains the <code>Run</code> JSON object.</p>
+<h2 id='starting-your-wrf-run'>Starting your WRF run</h2><pre class="highlight python tab-python"><code><span class="n">run</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">cores</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+
+<span class="c"># or</span>
+
+<span class="n">run</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">compute_option_id</span><span class="o">=</span><span class="n">compute_id</span><span class="p">)</span>
+</code></pre><pre class="highlight shell tab-shell"><code>curl -X POST https://api.cloudrun.co/v1/runs/<span class="k">${</span><span class="nv">id</span><span class="k">}</span>/start <span class="se">\</span>
+     -H <span class="s2">"Authorization: Bearer </span><span class="nv">$token</span><span class="s2">"</span>
+</code></pre>
+<p>Use this endpoint to start your run once it has been properly configured
+and all the input files have been uploaded.</p>
+
+<p>If using the HTTP API (e.g. via <code>curl</code>), you must set the value 
+of <code>selected_compute_option</code> firsti using the <code>PATCH</code> request to 
+<code>https://api.cloudrun.co/v1/runs/${id}</code>.</p>
+
+<p>If using the Python interface to the API, you can provide the number 
+of <code>cores</code> or <code>compute_option_id</code> as an argument to <code>run.start()</code>.</p>
+
+<aside class="notice">
+This endpoint can be used only after uploading all the required input files.
+</aside>
+<h3 id='http-request-5'>HTTP Request</h3>
+<p><code>POST https://api.cloudrun.co/v1/runs/{id}/start</code></p>
+<h3 id='form-parameters-5'>Form parameters</h3>
+<p>One or the other of the two parameters (<code>cores</code> or <code>compute_option_id</code>)
+can be used in the Python interface only. </p>
+
+<table><thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td><code>cores</code></td>
+<td>Number of compute cores to use</td>
+</tr>
+<tr>
+<td><code>compute_option_id</code></td>
+<td>Unique ID of one of available compute options</td>
+</tr>
+</tbody></table>
+<h3 id='response-6'>Response</h3>
 <p>The response body contains the <code>Run</code> JSON object.</p>
 <h2 id='stopping-your-wrf-run'>Stopping your WRF run</h2><pre class="highlight python tab-python"><code><span class="n">run</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
 </code></pre><pre class="highlight shell tab-shell"><code>curl -X POST https://api.cloudrun.co/v1/runs/<span class="k">${</span><span class="nv">id</span><span class="k">}</span>/stop <span class="se">\</span>
@@ -663,9 +704,9 @@ This should be necessary only if you want to stop your run before it completes.<
 <aside class="notice">
 This endpoint can be used only after calling the `start` endpoint.
 </aside>
-<h3 id='http-request-5'>HTTP Request</h3>
+<h3 id='http-request-6'>HTTP Request</h3>
 <p><code>POST https://api.cloudrun.co/v1/runs/{id}/stop</code></p>
-<h3 id='response-6'>Response</h3>
+<h3 id='response-7'>Response</h3>
 <p>The response body contains the <code>Run</code> JSON object.</p>
 <h2 id='deleting-your-wrf-run'>Deleting your WRF run</h2><pre class="highlight python tab-python"><code><span class="n">run</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
 </code></pre><pre class="highlight shell tab-shell"><code>curl -X DELETE https://api.cloudrun.co/v1/runs/<span class="k">${</span><span class="nv">id</span><span class="k">}</span> <span class="se">\</span>
@@ -677,9 +718,9 @@ You will still be able to access the metadata of your run.</p>
 <aside class="warning">
 This request cannot be undone.
 </aside>
-<h3 id='http-request-6'>HTTP Request</h3>
+<h3 id='http-request-7'>HTTP Request</h3>
 <p><code>DELETE https://api.cloudrun.co/v1/runs/{id}</code></p>
-<h3 id='response-7'>Response</h3>
+<h3 id='response-8'>Response</h3>
 <p>The response body contains the <code>Run</code> JSON object.</p>
 <h1 id='errors'>Errors</h1>
 <p>The Cloudrun API uses the following error codes:</p>
