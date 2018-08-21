@@ -17,8 +17,13 @@ search: true
 # Introduction
 
 Welcome to the Cloudrun API!
+You can use it to create, configure, and run your own 
+WRF simulations in the cloud, either from command line
+or from your own custom application.
+Explore our API docs and feel free to reach out for help
+at <a href='mailto:help@cloudrun.co'>help@cloudrun.co</a>!
 
-We have language bindings in for shell (using curl) and Python!
+We have language bindings in shell (using curl) and Python!
 You can view code examples in the dark area to the right,
 and you can switch the programming language of the examples with the tabs in the top right.
 
@@ -88,11 +93,11 @@ in the response.
 
 Parameter | Description
 --------- | -----------
-model     | Name of model to use
-version   | Model version to use
+`model`     | Name of model to use, e.g. `"wrf"`
+`version`   | Model version to use, e.g. `"3.9.1"`
 
 <aside class="notice">
-The only model option currently supported is `wrf`.
+Only `wrf` model option is currently supported.
 </aside>
 
 <aside class="notice">
@@ -313,7 +318,14 @@ size      | File size in bytes
 ```shell
 curl -X PATCH ${CLOUDRUN_API_URL}/runs/${id} \
      -H "Authorization: Bearer $CLOUDRUN_API_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '[{"op":"replace","path":"/selected_compute_option","value":{"compute_option_id":"'${compute_option_id}'"}}]'
+ 
 ```
+
+<aside class="notice">
+Working with Python API? You can select your compute option when starting your run.
+</aside>
 
 After you have uploaded a valid WRF namelist file (`namelist.input`),
 Cloudrun server will parse the namelist and return a number of available
@@ -355,31 +367,56 @@ parallel cores, and has different estimated time to completion and run price.
 ]
 ```
 
+### HTTP Request
+
+`PATCH https://api.cloudrun.co/v1/runs/{id}`
+
+The request must include a JSON patch in the body, for example:
+
+```
+[
+  {
+    "op": "replace",
+    "path": "/selected_compute_option",
+    "value": {"compute_option_id": "7a3ecb91-a0c7-4f51-85c1-b62e7a7bf69d"}
+  }
+]
+```
+
+### Form parameters
+
+Parameter | Description
+--------- | -----------
+`compute_option_id` | A unique ID that matches one of IDs in `compute_options` member of the `Run` JSON object
+
+### Response
+
+The response body contains the `Run` JSON object.
+
 ## Starting your WRF run
 
 ```python
 run.start(cores=32)
+
+# or
+
+run.start(compute_option_id=compute_id)
 ```
 
 ```shell
 curl -X POST https://api.cloudrun.co/v1/runs/${id}/start \
-     -H "Authorization: Bearer $token" \
-     -F "cores=32"
-
-# or
-
-curl -X POST https://api.cloudrun.co/v1/runs/${id}/start \
-     -H "Authorization: Bearer $token" \
-     -F "selected_compute_option=$compute_option_id"
+     -H "Authorization: Bearer $token"
 ```
 
 Use this endpoint to start your run once it has been properly configured
 and all the input files have been uploaded.
 
-There are two different ways you can start your run:
+If using the HTTP API (e.g. via `curl`), you must set the value 
+of `selected_compute_option` firsti using the `PATCH` request to 
+`https://api.cloudrun.co/v1/runs/${id}`.
 
-1. By passing a number of parallel cores (`cores`) in the request body.
-2. By passing a valid compute option ID in the request body.
+If using the Python interface to the API, you can provide the number 
+of `cores` or `compute_option_id` as an argument to `run.start()`.
 
 <aside class="notice">
 This endpoint can be used only after uploading all the required input files.
@@ -387,13 +424,17 @@ This endpoint can be used only after uploading all the required input files.
 
 ### HTTP Request
 
-`POST https://api.cloudrun.co/v1/wrf/{id}/start`
+`POST https://api.cloudrun.co/v1/runs/{id}/start`
 
 ### Form parameters
 
+One or the other of the two parameters (`cores` or `compute_option_id`)
+can be used in the Python interface only. 
+
 Parameter | Description
 --------- | -----------
-cores     | Number of compute cores to use
+`cores`     | Number of compute cores to use
+`compute_option_id` | Unique ID of one of available compute options
 
 ### Response
 
